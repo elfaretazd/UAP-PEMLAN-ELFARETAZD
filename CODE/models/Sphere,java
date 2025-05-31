@@ -1,51 +1,61 @@
 package UAP.models;
 
 import UAP.bases.Shape;
-import UAP.interfaces.*;
+import UAP.interfaces.MassCalculable;
+import UAP.interfaces.MassConverter;
+import UAP.interfaces.PIRequired;
+import UAP.interfaces.ShippingCostCalculator;
+import UAP.interfaces.ThreeDimensional;
 
-public class Sphere extends Shape implements ThreeDimensional, PIRequired, MassCalculable, MassConverter, ShippingCostCalculator {
+public class Sphere extends Shape implements ThreeDimensional, MassCalculable, PIRequired, MassConverter, ShippingCostCalculator {
     private double radius;
 
     public Sphere() {
-        setName("Donat Bola");
+        super();
+        setName("Donat tanpa lubang"); 
     }
 
     public Sphere(double radius) {
-        this();
+        this(); 
         this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 
     @Override
     public double getVolume() {
-        return 4.0 / 3.0 * PI * radius * radius * radius;
+        return Math.ceil((4.0 / 3.0) * PI * (radius * radius * radius)) ;
     }
 
     @Override
     public double getSurfaceArea() {
-        return 4 * PI * radius * radius;
+        return 4 * PI * (radius * radius);
     }
 
     @Override
     public double getMass() {
-        return getVolume() * DENSITY;
+        return DENSITY * getSurfaceArea() * THICKNESS;
     }
 
     @Override
-    public double gramToKilogram() {
-        return getMass() / DENOMINATOR;
+    public double gramToKilogram(double gram) {
+        return gram / DENOMINATOR;
     }
 
     @Override
-    public double calculateCost() {
-        return Math.ceil(gramToKilogram()) * PRICE_PER_KG;
+    public double calculateCost(double massInKg) {
+        return Math.ceil(massInKg) * PRICE_PER_KG;
     }
 
     @Override
     public void printInfo() {
-        System.out.printf("Volume          : %.2f\n", getVolume());
-        System.out.printf("Luas permukaan  : %.2f\n", getSurfaceArea());
-        System.out.printf("Massa           : %.2f\n", getMass());
-        System.out.printf("Massa dalam kg  : %.2f\n", gramToKilogram());
-        System.out.printf("Biaya kirim     : Rp%.0f\n", calculateCost());
+        System.out.println("=============================================");
+        System.out.println("Volume : " + getVolume());
+        System.out.println("Luas permukaan : " + getSurfaceArea());
+        System.out.println("Massa : " + getMass());
+        System.out.println("Massa dalam kg : " + gramToKilogram(getMass()));
+        System.out.println("Biaya kirim : Rp" + (int) calculateCost(gramToKilogram(getMass())));
     }
 }
