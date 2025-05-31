@@ -18,9 +18,9 @@ public class KalkulatorPabrik {
 
         System.out.println("=============================================");
         System.out.print("Isikan Radius   : ");
-        double R = sc.nextDouble(); // e.g., 7
+        double R = sc.nextDouble(); 
         System.out.print("Isikan radius   : ");
-        double r = sc.nextDouble(); // e.g., 3.5
+        double r = sc.nextDouble(); 
 
         Torus torusInput = new Torus(R, r);
         System.out.println("=============================================");
